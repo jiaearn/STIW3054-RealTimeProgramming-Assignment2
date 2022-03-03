@@ -1,0 +1,42 @@
+{% extends "App_Victim/base.html" %}
+
+{% block title %}
+    Portal PKOB
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        .btn:hover {
+            box-shadow: 0 0 20px 10px hsla(0, 0%, 50%, 0.5);
+            color: #fff;
+            background: #000;
+            border: 0;
+        }
+    </style>
+
+    <div class="row mt-5">
+        <div class="col-4"></div>
+        <div class="col-4" style="background: white; border: 2px solid; border-radius: 5px;">
+            <div class="row my-5 text-center"><h3>Pusat Kawalan Operasi Bencana</h3></div>
+            <form action="" method="post" enctype="multipart/form-data" name="trackstatus"
+                  onSubmit="return formValidation();">
+                {% csrf_token %}
+                <div class="col text-center mb-5">
+                    <a href="{% url "victim-application" %}" class="btn btn-outline-dark btn-lg btn-block"
+                       role="button">Victim Application</a>
+                    <a href="{% url "victim-report" %}" class="btn btn-outline-dark btn-lg btn-block" role="button">List
+                        of Victims</a>
+                </div>
+                <div class="col"></div>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    {% if status %}
+        <script>
+            alert("{{status}}");
+        </script>
+    {% endif %}
+
+{% endblock %}

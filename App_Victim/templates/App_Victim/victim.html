@@ -1,0 +1,128 @@
+{% extends "App_Victim/base.html" %}
+
+{% block title %}
+    Victim Application
+{% endblock %}
+
+{% block content %}
+
+    <script language="JavaScript">
+        function formValidation() {
+
+            /*Get Data*/
+            const name = document.trackstatus.name;
+            const icNum = document.trackstatus.icNum;
+            const phone = document.trackstatus.phone;
+
+            /*Validate*/
+            const all_letters = /^[A-Za-z "]+$/;
+            const phone_start = /^[0]/;
+            const phone_len = phone.value.length;
+            const ic_len = icNum.value.length;
+            const icformat = /(([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))([0-9]{2})([0-9]{4})/;
+
+            /*Name Contain Only Alphabet*/
+            if (!name.value.match(all_letters)) {
+                alert("Name must contain only alphabet characters.");
+                name.focus();
+                return false;
+            }
+            /*IC Number Contain Only Numeric*/
+            else if (isNaN(icNum.value)) {
+                alert("IC number must contain only numeric characters.")
+                icNum.focus();
+                return false;
+            }
+            /*IC Number Length*/
+            else if (ic_len < 12 || ic_len > 12) {
+                alert("IC number length should equal 12.");
+                icNum.focus();
+                return false;
+            }
+            /*Ic Wrong Format*/
+            else if (!icNum.value.match(icformat)) {
+                alert("IC number format is incorrect. Please insert again. For example, yymmddxxxxxx (yy: birth year, mm: birth month, dd: birth day,xxxxxx: 6 digit after birth day.)");
+                icNum.focus();
+                return false;
+            }
+            /*Phone Number Contain Only Numeric*/
+            else if (isNaN(phone.value)) {
+                alert("Phone number must contain only numeric characters.")
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Start With Zero*/
+            if (!phone.value.match(phone_start)) {
+                alert("Phone number should start with zero. Please insert again");
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Length Must Greater Than 9 and Lower Than 13*/
+            else if (phone_len < 10 || phone_len > 13) {
+                alert("Phone number length must be between 10 to 13.");
+                phone.focus();
+                return false;
+            }
+        }
+    </script>
+    <style>
+        .btn:hover {
+            box-shadow: 0 0 20px 10px hsla(0, 0%, 50%, 0.5);
+            color: #fff;
+            background: #000;
+            border: 0;
+        }
+
+    </style>
+    <div class="row mt-5">
+        <div class="col-4"></div>
+        <div class="col-4" style="background: white; border: 2px solid; border-radius: 5px;">
+            <div class="row mt-5 text-center"><h3>Victim Application</h3></div>
+            <form action="" method="post" enctype="multipart/form-data" name="trackstatus"
+                  onSubmit="return formValidation();">
+                {% csrf_token %}
+                <div class="my-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" placeholder="Victim's Name" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="icNum" class="form-label">Ic Number</label>
+                    <input type="number" class="form-control"
+                           placeholder="Victim's IC Number(format should be yymmddxxxxxx)" id="icNum" name="icNum"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="number" class="form-control" placeholder="Victim's Phone Number" id="phone"
+                           name="phone" maxlength="13" required>
+                </div>
+                <div class="row mb-3">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-outline-dark"
+                        >Submit
+                        </button>
+                    </div>
+                    <div class="col text-center">
+                        <button type="reset" class="btn btn-outline-dark" style="width: 75px;">Reset
+                        </button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </form>
+            <div class="col text-center mb-3">
+                <a href="{% url "home-page" %}">Back to Main Page</a>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    {% if status %}
+        <script>
+            alert("{{status}}");
+        </script>
+    {% endif %}
+
+{% endblock %}
+
+
+

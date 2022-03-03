@@ -1,0 +1,89 @@
+{% extends "App_Victim/base.html" %}
+
+{% block title %}
+    {{ victim.ic_no }}
+{% endblock %}
+
+{% block content %}
+
+    <script language="JavaScript">
+        function formValidation() {
+            /*Get Data*/
+            const phone = document.trackstatus.phone;
+
+            /*Validate*/
+            const phone_len = phone.value.length;
+
+            /*Phone Number Contain Only Numeric*/
+            if (isNaN(phone.value)) {
+                alert("Phone number must contain only numeric characters.")
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Length Must Greater Than 9 and Lower Than 13*/
+            else if (phone_len < 10 || phone_len > 13 ) {
+                alert("Phone number length must be between 10 to 13.");
+                phone.focus();
+                return false;
+            }
+        }
+    </script>
+    <style>
+        .btn:hover {
+            box-shadow: 0 0 20px 10px hsla(0, 0%, 50%, 0.5);
+            color: #fff;
+            background: #000;
+            border: 0;
+        }
+
+    </style>
+    <div class="row mt-5">
+        <div class="col-4"></div>
+        <div class="col-4" style="background: white; border: 2px solid; border-radius: 5px;">
+            <div class="row mt-5 text-center"><h3>Victim Detail</h3></div>
+            <form action="" method="post" enctype="multipart/form-data" name="trackstatus"
+                  onSubmit="return formValidation();">
+                {% csrf_token %}
+                <div class="my-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" value="{{ victim.name }}" id="name" name="name" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="icNum" class="form-label">Ic Number</label>
+                    <input type="number" class="form-control" value="{{ victim.ic_no }}" id="icNum" name="icNum" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="number" class="form-control" value="{{ victim.phone }}" id="phone" name="phone"
+                           maxlength="13" required>
+                </div>
+                <div class="mb-3">
+                    <label for="age" class="form-label">Age</label>
+                    <input type="number" class="form-control" value="{{ victim.age }}" id="age" name="age" readonly>
+                </div>
+                <div class="row mb-3">
+                    <div class="col"></div>
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-outline-dark" role="button">Edit
+                        </button>
+                    </div>
+
+                    <div class="col text-center">
+                        <a href="{% url "victim-report" %}" class="btn btn-outline-dark " role="button">Back</a>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </form>
+            <div class="col text-center mb-3">
+                <a href="{% url "home-page" %}">Back to Main Page</a>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    {% if status %}
+        <script>
+            alert("{{status}}");
+        </script>
+    {% endif %}
+
+{% endblock %}
